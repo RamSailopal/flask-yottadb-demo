@@ -8,16 +8,14 @@ def user():
     if request.method == 'GET':
        id = request.args.get('id',type=str)
        key=yottadb.Key("^PATIENTS")[id]["age"]
-       patient_data["age"] = key.get().decode()
+       age = key.get().decode()
        key=yottadb.Key("^PATIENTS")[id]["sex"]
-       patient_data["sex"] = key.get().decode()
+       sex = key.get().decode()
        key=yottadb.Key("^PATIENTS")[id]["name"]
-       patient_data["name"] = key.get().decode()
-       key=yottadb.Key("^PATIENTS")[id]["address"]
-       patient_data["address"] = key.get().decode()
+       name = key.get().decode()
        json_data = []
        content = {}
-       content = {'id': id, 'name': patient_data["name"], 'sex': patient_data["sex"], 'age': patient_data["age"]}
+       content = {'id': id, 'name': name, 'sex': sex, 'age': age}
        json_data.append(content)
        return(jsonify(json_data))
 
@@ -34,9 +32,9 @@ def user():
        sex = request_data['sex']
        age = request_data['age']
        id = request_data['id']
-       yottadb.set("^PATIENTS",(id, "name"), name)
-       yottadb.set("^PATIENTS",(id, "sex"), sex)
-       yottadb.set("^PATIENTS",(id, "age"), age)
+       yottadb.set("^PATIENTS",(str(id).encode(), "name"), str(name).encode())
+       yottadb.set("^PATIENTS",(str(id).encode(), "sex"), str(sex).encode())
+       yottadb.set("^PATIENTS",(str(id).encode(), "age"), str(age).encode())
        return('{ "id":"' + str(id) + '","status":"updated"}')
 
     else:
@@ -52,13 +50,15 @@ def adduser():
        sex = request_data['sex']
        age = request_data['age']
        try:
-          id = yottadb.subscript_previous("^PATIENTS", ("",))
+          id = yottadb.subscript_previous("^PATIENTS", ("",)).decode()
        except yottadb.YDBNodeEnd:
           id=0
        id = int(id) + 1
-       yottadb.set("^PATIENTS",(str(id), "name"), str(name))
-       yottadb.set("^PATIENTS",(str(id), "sex"), str(sex))
-       yottadb.set("^PATIENTS",(str(id), "age"), str(age))
+       print(id)
+       print(name)
+       yottadb.set("^PATIENTS",(str(id).encode(), "name"), str(name))
+       yottadb.set("^PATIENTS",(str(id).encode(), "sex"), str(sex))
+       yottadb.set("^PATIENTS",(str(id).encode(), "age"), str(age))
        return('{ "name":"' + str(name) + '","status":"added"}')
 
     else:
@@ -70,27 +70,25 @@ def users():
     json_data = []
     content = {}
     try:
-       id = yottadb.subscript_next("^PATIENTS", ("",))
+       id = yottadb.subscript_next("^PATIENTS", ("",)).decode()
     except yottadb.YDBNodeEnd:
        content = {}
        content = {'id': "", 'name': "", 'sex': "", 'age': ""}
        json_data.append(content)
        return(jsonify(json_data))
-    id = yottadb.subscript_next("^PATIENTS", ("",))
     while True:
        try:
           key=yottadb.Key("^PATIENTS")[id]["age"]
-          patient_data["age"] = key.get().decode()
+          print(key)
+          age = key.get().decode()
           key=yottadb.Key("^PATIENTS")[id]["sex"]
-          patient_data["sex"] = key.get().decode()
+          sex = key.get().decode()
           key=yottadb.Key("^PATIENTS")[id]["name"]
-          patient_data["name"] = key.get().decode()
-          key=yottadb.Key("^PATIENTS")[id]["address"]
-          patient_data["address"] = key.get().decode()
-          content = {'id': id, 'name': patient_data["name"], 'sex': patient_data["sex"], 'age': patient_data["age"]}
+          name = key.get().decode()
+          content = {'id': str(id), 'name': str(name), 'sex': str(sex), 'age': str(age)}
           json_data.append(content)
           content = {} 
-          id = yottadb.subscript_next("^PATIENTS", (id,))
+          id = yottadb.subscript_next("^PATIENTS", (id,)).decode()
        except yottadb.YDBNodeEnd:
           break
     return(jsonify(json_data))
