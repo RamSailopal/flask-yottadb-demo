@@ -4,6 +4,7 @@ A simple demo of the Python Flask framework using yottadb as a backend
 
 Creates a simple api for adding users to a YottaDB database
 
+![Alt text](flask.JPG?raw=true "view")
 
 # Provisioning
 
