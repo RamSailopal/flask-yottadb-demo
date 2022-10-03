@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-import json, os, yottadb
+import json, os, yottadb, time
 app = Flask(__name__)
 
 @app.route('/user', methods=['POST', 'DELETE', 'GET'])
@@ -32,9 +32,9 @@ def user():
        sex = request_data['sex']
        age = request_data['age']
        id = request_data['id']
-       yottadb.set("^PATIENTS",(str(id).encode(), "name"), str(name).encode())
-       yottadb.set("^PATIENTS",(str(id).encode(), "sex"), str(sex).encode())
-       yottadb.set("^PATIENTS",(str(id).encode(), "age"), str(age).encode())
+       yottadb.set("^PATIENTS",(str(id), "name"), str(name))
+       yottadb.set("^PATIENTS",(str(id), "sex"), str(sex))
+       yottadb.set("^PATIENTS",(str(id), "age"), str(age))
        return('{ "id":"' + str(id) + '","status":"updated"}')
 
     else:
@@ -54,11 +54,9 @@ def adduser():
        except yottadb.YDBNodeEnd:
           id=0
        id = int(id) + 1
-       print(id)
-       print(name)
-       yottadb.set("^PATIENTS",(str(id).encode(), "name"), str(name))
-       yottadb.set("^PATIENTS",(str(id).encode(), "sex"), str(sex))
-       yottadb.set("^PATIENTS",(str(id).encode(), "age"), str(age))
+       yottadb.set("^PATIENTS",(str(id), "name"), str(name))
+       yottadb.set("^PATIENTS",(str(id), "sex"), str(sex))
+       yottadb.set("^PATIENTS",(str(id), "age"), str(age))
        return('{ "name":"' + str(name) + '","status":"added"}')
 
     else:
@@ -92,4 +90,3 @@ def users():
        except yottadb.YDBNodeEnd:
           break
     return(jsonify(json_data))
-
