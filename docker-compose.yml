@@ -1,0 +1,30 @@
+version: "2"
+services:
+  flask-back:
+    image: docker.io/yottadb/yottadb-base:latest
+    container_name: "flask_flask-back"
+    networks:
+      - flask
+    volumes:
+      - "$PWD/flask-back:/home/flask-back"
+    ports:
+      - 5000:5000
+    entrypoint:
+      - "/home/flask-back/entrypoint.sh"
+
+  flask-front:
+    image: ubuntu:focal
+    container_name: "flask_flask-front"
+    networks:
+      - flask
+    volumes:
+      - "$PWD/flask-front:/home/flask-front"
+    ports:
+      - 5001:5000
+    entrypoint:
+      - "/home/flask-front/entrypoint.sh"
+
+
+networks:
+    flask:
+
