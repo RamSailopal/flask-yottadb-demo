@@ -23,7 +23,7 @@ def user():
     elif request.method == 'DELETE':
        id = request.args.get('id',type=str)
        key=yottadb.Key("^PATIENTS")[id]
-       key.delete_node()
+       key.delete_tree()
        return('{ "id":"' + id + '","status":"deleted"}')
 
     elif request.method == 'POST':
