@@ -7,4 +7,5 @@ pip install yottadb
 cd /home/flask-back
 export FLASK_APP=index
 export FLASK_ENV=development
+source /opt/yottadb/current/ydb_env_set
 flask run --host=0.0.0.0
