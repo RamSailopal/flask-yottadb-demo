@@ -24,6 +24,10 @@ On completion of the provisioning of the environment, navigate to http://servera
 
 # YottaDB view
 
+    ^PATIENTS(1,"age")=52
+    ^PATIENTS(1,"name")="Bob Taylor"
+    ^PATIENTS(1,"sex")="Male"
+
 
 # Front-end
 
