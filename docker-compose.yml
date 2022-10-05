@@ -1,7 +1,7 @@
 version: "2"
 services:
   flask-back:
-    image: docker.io/yottadb/yottadb-base:latest
+    image: docker.io/ramb0/ydb-python
     container_name: "flask_flask-back"
     networks:
       - flask
