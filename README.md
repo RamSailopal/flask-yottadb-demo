@@ -36,4 +36,13 @@ http://serveraddress:5001 - Locally
 https://5001-gitpodaddress - Gitpod
 
 
+# Mysql comparison
+
+This implementation has also be done with mysql as opposed to YottaDB for comparison purposes.
+
+The mysql implementation can be found here:
+
+https://github.com/RamSailopal/flask-mysql-demo
+
+
 
