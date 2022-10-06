@@ -2,7 +2,7 @@
 
 A simple demo of the Python Flask framework using yottadb as a backend
 
-Creates a simple api for adding users to a YottaDB database
+This demonstrates CRUD (create, update, delete) operation with YottaDB, using a front-end UI that allows the adding, amend and deletion of user details.
 
 ![Alt text](flask.JPG?raw=true "view")
 
